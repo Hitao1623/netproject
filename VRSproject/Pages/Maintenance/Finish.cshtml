@@ -1,0 +1,20 @@
+﻿@page "{id:guid}"
+@model VRSproject.Pages.Maintenance.FinishModel
+@{
+    ViewData["Title"] = "Finish Maintenance";
+}
+<h2>Finish Maintenance</h2>
+
+<div class="alert alert-info">
+  <div><strong>Vehicle:</strong> @Model.Data.VehicleLabel</div>
+  <div><strong>Start (UTC):</strong> @Model.Data.StartAtUtc.ToString("yyyy-MM-dd HH:mm")</div>
+  <div><strong>End (UTC):</strong> @(Model.Data.EndAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "-")</div>
+  <div><strong>Note:</strong> @Model.Data.Description</div>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Data.MaintenanceId" />
+    <input type="hidden" asp-for="Data.VehicleId" />
+    <button type="submit" class="btn btn-danger">Finish Now</button>
+    <a asp-page="Index" asp-route-vehicleId="@Model.Data.VehicleId" class="btn btn-secondary">Back</a>
+</form>

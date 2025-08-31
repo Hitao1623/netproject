@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VRSproject.Data;
 using VRSproject.Models;
-using VRSproject.Data;
+using VRSproject.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(o =>
 builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<SeedRolesAndAdmin>();
+builder.Services.AddScoped<VehicleService>();
+builder.Services.AddScoped<MaintenanceService>();
 
 var app = builder.Build();
 

@@ -9,7 +9,6 @@ public abstract class Vehicle
     public int Year { get; set; }
     public VehicleStatus Status { get; set; } = VehicleStatus.Available;
 
-    
     public ICollection<Rental> Rentals { get; set; } = new List<Rental>();
     public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     public ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();

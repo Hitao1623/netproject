@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VRSproject.Data;
 
@@ -11,9 +12,11 @@ using VRSproject.Data;
 namespace VRSproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250830022729_Add_Vechile_Archive")]
+    partial class Add_Vechile_Archive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -453,6 +456,12 @@ namespace VRSproject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("ArchivdReason")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ArchivedAtUtc")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasMaxLength(8)
@@ -475,7 +484,12 @@ namespace VRSproject.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("tinyint(1)");
+
                     b.HasKey("VehicleId");
+
+                    b.HasIndex("isArchived", "Status", "VehicleType");
 
                     b.ToTable("Vehicles");
 

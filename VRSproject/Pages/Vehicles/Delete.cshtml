@@ -1,0 +1,30 @@
+﻿@page "{id:guid}"
+@model VRSproject.Pages.Vehicles.DeleteModel
+@{
+    ViewData["Title"] = "Delete Vehicle";
+}
+<h3>Delete Vehicle</h3>
+<div class="alert alert-warning">
+    <strong>Warning:</strong> This will permanently remove the vehicle if it has no related records.
+</div>
+
+<dl class="row">
+    <dt class="col-sm-2">Make</dt><dd class="col-sm-10">@Model.Vehicle?.Make</dd>
+    <dt class="col-sm-2">Model</dt><dd class="col-sm-10">@Model.Vehicle?.Model</dd>
+    <dt class="col-sm-2">Year</dt><dd class="col-sm-10">@Model.Vehicle?.Year</dd>
+</dl>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger mt-3">
+        @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@e.ErrorMessage</div>
+        }
+    </div>
+}

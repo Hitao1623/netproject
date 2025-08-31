@@ -1,0 +1,51 @@
+﻿@page "{id:guid}"
+@model VRSproject.Pages.Vehicles.DetailsModel
+@{
+    ViewData["Title"] = "Vehicle Details";
+}
+<h2>Vehicle Details</h2>
+
+@if (Model.Vehicle is null)
+{
+    <div class="alert alert-danger">Vehicle not found.</div>
+}
+else
+{
+    <dl class="row">
+        <dt class="col-sm-3">Vehicle Type</dt>
+        <dd class="col-sm-9">@Model.Vehicle.VehicleType</dd>
+
+        <dt class="col-sm-3">Make</dt>
+        <dd class="col-sm-9">@Model.Vehicle.Make</dd>
+
+        <dt class="col-sm-3">Model</dt>
+        <dd class="col-sm-9">@Model.Vehicle.Model</dd>
+
+        <dt class="col-sm-3">Year</dt>
+        <dd class="col-sm-9">@Model.Vehicle.Year</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">@Model.Vehicle.Status</dd>
+
+        @if (Model.Vehicle is VRSproject.Models.Car car)
+        {
+            <dt class="col-sm-3">Number Of Seats</dt>
+            <dd class="col-sm-9">@car.NumberOfSeats</dd>
+        }
+        @if (Model.Vehicle is VRSproject.Models.Bike bike)
+        {
+            <dt class="col-sm-3">Bike Type</dt>
+            <dd class="col-sm-9">@bike.BikeType</dd>
+        }
+        @if (Model.Vehicle is VRSproject.Models.Truck truck)
+        {
+            <dt class="col-sm-3">Cargo Capacity</dt>
+            <dd class="col-sm-9">@truck.CargoCapacity</dd>
+        }
+    </dl>
+
+    <div class="mt-3">
+        <a asp-page="Edit" asp-route-id="@Model.Vehicle.VehicleId" class="btn btn-primary">Edit</a>
+        <a asp-page="Index" class="btn btn-secondary">Back</a>
+    </div>
+}

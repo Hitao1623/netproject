@@ -1,0 +1,84 @@
+﻿@page
+@model VRSproject.Pages.Maintenance.IndexModel
+@{
+    ViewData["Title"] = "Maintenance Records";
+}
+<h2>Maintenance Records</h2>
+
+@if (TempData["Msg"] is string msg && !string.IsNullOrWhiteSpace(msg))
+{
+    <div class="alert alert-info">@msg</div>
+}
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-6">
+        <select asp-for="VehicleId" class="form-select">
+            <option value="">-- All Vehicles --</option>
+            @foreach (var v in Model.VehicleOptions)
+            {
+                <option value="@v.Id" selected="@(Model.VehicleId == v.Id)">@v.Label</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6 text-end">
+        <a asp-page="Create" class="btn btn-success">+ New Maintenance</a>
+        @if (Model.VehicleId.HasValue)
+        {
+            <a asp-page="Create" asp-route-vehicleId="@Model.VehicleId" class="btn btn-outline-primary">
+                New For Selected
+            </a>
+        }
+    </div>
+</form>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Vehicle</th>
+            <th>Start (UTC)</th>
+            <th>End (UTC)</th>
+            <th>Description</th>
+            <th style="width:360px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var r in Model.Records)
+{
+    var state = VRSproject.Services.MaintenanceService.GetStateAndText(r, Model.NowUtc, out var _);
+
+    <tr>
+        <td>@($"{r.Vehicle?.Make} {r.Vehicle?.Model} ({r.Vehicle?.Year})")</td>
+
+        <td>@r.StartAtUtc.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")</td>
+        <td>@(r.EndAtUtc.HasValue ? r.EndAtUtc.Value.ToUniversalTime().ToString("yyyy-MM-dd HH:mm") : "-")</td>
+
+        <td>@r.Description</td>
+
+        <td>
+            <a asp-page="Details" asp-route-id="@r.MaintenanceRecordId" class="btn btn-sm btn-secondary me-2">Details</a>
+
+            @if (state == VRSproject.Services.MaintenanceState.Scheduled)
+            {
+                <a asp-page="Edit" asp-route-id="@r.MaintenanceRecordId" class="btn btn-sm btn-primary me-2">Edit</a>
+
+                <form method="post" asp-page-handler="Cancel" class="d-inline">
+                    <input type="hidden" name="id" value="@r.MaintenanceRecordId" />
+                    <input type="hidden" name="vehicleId" value="@Model.VehicleId" />
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Cancel this maintenance?');">Cancel</button>
+                </form>
+            }
+            else if (state == VRSproject.Services.MaintenanceState.InProgress)
+            {
+                <a asp-page="Edit" asp-route-id="@r.MaintenanceRecordId" class="btn btn-sm btn-primary me-2">Edit</a>
+                <a asp-page="Finish" asp-route-id="@r.MaintenanceRecordId" class="btn btn-sm btn-danger">Finish</a>
+            }
+            else
+            {
+                <!-- completed: 仅保留 Details -->
+            }
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

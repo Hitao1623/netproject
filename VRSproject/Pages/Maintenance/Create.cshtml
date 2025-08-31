@@ -1,0 +1,54 @@
+﻿@page
+@model VRSproject.Pages.Maintenance.CreateModel
+@{
+    ViewData["Title"] = "Create Maintenance";
+}
+<h2>Create Maintenance</h2>
+
+<form method="post" class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="Form.VehicleId" class="form-label"></label>
+        <select asp-for="Form.VehicleId" class="form-select">
+            <option value="">-- Select Vehicle --</option>
+            @foreach (var v in Model.VehicleOptions)
+            {
+                <option value="@v.Id">@v.Label</option>
+            }
+        </select>
+        <span asp-validation-for="Form.VehicleId" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Form.StartLocal" class="form-label">Start (local)</label>
+        <input asp-for="Form.StartLocal"
+               type="datetime-local"
+               class="form-control"
+               step="60"
+               asp-format="{0:yyyy-MM-ddTHH:mm}" />
+        <span asp-validation-for="Form.StartLocal" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Form.EndLocal" class="form-label">End (local)</label>
+        <input asp-for="Form.EndLocal"
+               type="datetime-local"
+               class="form-control"
+               step="60"
+               asp-format="{0:yyyy-MM-ddTHH:mm}" />
+        <span asp-validation-for="Form.EndLocal" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Form.Description" class="form-label"></label>
+        <textarea asp-for="Form.Description" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="col-12">
+        <small class="text-muted">Times are entered in your local timezone and will be saved as UTC.</small>
+    </div>
+
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a asp-page="Index" class="btn btn-secondary">Back</a>
+    </div>
+</form>

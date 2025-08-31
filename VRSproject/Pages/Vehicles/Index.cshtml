@@ -1,0 +1,84 @@
+﻿@page
+@model VRSproject.Pages.Vehicles.IndexModel
+@{
+    ViewData["Title"] = "Vehicles";
+}
+<h2>Vehicles</h2>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-2">
+        <select asp-for="Type" class="form-select"
+                asp-items="Html.GetEnumSelectList<VRSproject.Models.VehicleType>()">
+            <option value="">-- All Types --</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input asp-for="Make" class="form-control" placeholder="Make.." />
+    </div>
+    <div class="col-md-3">
+        <input asp-for="ModelFilter" class="form-control" placeholder="Model.." />
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" type="submit">Search</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Reset</a>
+    </div>
+    <div class="col-md-2 text-end">
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-page="Create" class="btn btn-success">+ New Vehicle</a>
+        }
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Status</th>
+            <th style="width:220px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var v in Model.Vehicles)
+    {
+        <tr>
+            <td>@v.VehicleType</td>
+            <td>@v.Make</td>
+            <td>@v.Model</td>
+            <td>@v.Year</td>
+            <td>@v.Status</td>
+            <td>
+                <a asp-page="Details" asp-route-id="@v.VehicleId" class="btn btn-sm btn-outline-secondary">Details</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-page="Edit" asp-route-id="@v.VehicleId" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-page="Delete" asp-route-id="@v.VehicleId" class="btn btn-sm btn-danger">Delete</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@if (Model.Total > Model.PageSize)
+{
+    var totalPages = (int)Math.Ceiling((double)Model.Total / Model.PageSize);
+    <nav>
+        <ul class="pagination">
+            @for (int p = 1; p <= totalPages; p++)
+            {
+                <li class="page-item @(p == Model.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                       asp-page="Index"
+                       asp-route-Type="@Model.Type"
+                       asp-route-Make="@Model.Make"
+                       asp-route-ModelFilter="@Model.ModelFilter"
+                       asp-route-PageNumber="@p">@p</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

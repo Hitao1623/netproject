@@ -1,0 +1,29 @@
+﻿@page "{id:guid}"
+@model VRSproject.Pages.Maintenance.DetailsModel
+@{
+    ViewData["Title"] = "Maintenance Details";
+}
+<h2>Maintenance Details</h2>
+
+<div class="card">
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">Vehicle</dt>
+      <dd class="col-sm-9">@Model.Data.VehicleLabel</dd>
+
+      <dt class="col-sm-3">Start (UTC)</dt>
+      <dd class="col-sm-9">@Model.Data.StartAtUtc.ToString("yyyy-MM-dd HH:mm")</dd>
+
+      <dt class="col-sm-3">End (UTC)</dt>
+      <dd class="col-sm-9">@((Model.Data.EndAtUtc?.ToString("yyyy-MM-dd HH:mm")) ?? "-")</dd>
+
+      <dt class="col-sm-3">Description</dt>
+      <dd class="col-sm-9">@Model.Data.Description</dd>
+
+      <dt class="col-sm-3">Status</dt>
+      <dd class="col-sm-9">@Model.Data.StatusText</dd>
+    </dl>
+
+    <a asp-page="Index" asp-route-vehicleId="@Model.Data.VehicleId" class="btn btn-secondary">Back</a>
+  </div>
+</div>

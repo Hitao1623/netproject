@@ -29,7 +29,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         b.Entity<Truck>().Property(x => x.CargoCapacity).HasPrecision(10, 2);
         b.Entity<Reservation>().Property(x => x.QuoteAmount).HasPrecision(10, 2);
         b.Entity<Rental>().Property(x => x.TotalCost).HasPrecision(10, 2);
-        b.Entity<PricingPlan>().Property(x => x.RateMultiplier).HasPrecision(10, 2);
+        b.Entity<PricingPlan>().Property(x => x.RateMultiplier).HasPrecision(10, 4);
         b.Entity<TypeBaseRate>().Property(x => x.BaseRate).HasPrecision(10, 2);
 
         b.Entity<Reservation>()

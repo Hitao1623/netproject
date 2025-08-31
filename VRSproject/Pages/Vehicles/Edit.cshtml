@@ -1,0 +1,74 @@
+﻿@page "{id:guid}"
+@model VRSproject.Pages.Vehicles.EditModel
+@{
+    ViewData["Title"] = "Edit Vehicle";
+}
+<h2>Edit Vehicle</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Form.VehicleId" />
+    <div class="row g-3">
+        <div class="col-md-3">
+            <label asp-for="Form.VehicleType" class="form-label"></label>
+            <select asp-for="Form.VehicleType" class="form-select" disabled
+                    asp-items="Html.GetEnumSelectList<VRSproject.Models.VehicleType>()"></select>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="Form.Make" class="form-label"></label>
+            <input asp-for="Form.Make" class="form-control" />
+            <span asp-validation-for="Form.Make" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="Form.Model" class="form-label"></label>
+            <input asp-for="Form.Model" class="form-control" />
+            <span asp-validation-for="Form.Model" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-2">
+            <label asp-for="Form.Year" class="form-label"></label>
+            <input asp-for="Form.Year" class="form-control" />
+            <span asp-validation-for="Form.Year" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="Form.Status" class="form-label"></label>
+            <select asp-for="Form.Status" class="form-select"
+                    asp-items="Html.GetEnumSelectList<VRSproject.Models.VehicleStatus>()"></select>
+        </div>
+
+        <!-- Car -->
+        <div class="col-md-3">
+            <label asp-for="Form.NumberOfSeats" class="form-label"></label>
+            <input asp-for="Form.NumberOfSeats" class="form-control" />
+            <div class="form-text">Only for Car</div>
+            <span asp-validation-for="Form.NumberOfSeats" class="text-danger"></span>
+        </div>
+
+        <!-- Bike -->
+        <div class="col-md-3">
+            <label asp-for="Form.BikeType" class="form-label"></label>
+            <input asp-for="Form.BikeType" class="form-control" />
+            <div class="form-text">Only for Bike</div>
+            <span asp-validation-for="Form.BikeType" class="text-danger"></span>
+        </div>
+
+        <!-- Truck -->
+        <div class="col-md-3">
+            <label asp-for="Form.CargoCapacity" class="form-label"></label>
+            <input asp-for="Form.CargoCapacity" class="form-control" />
+            <div class="form-text">Only for Truck</div>
+            <span asp-validation-for="Form.CargoCapacity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a asp-page="Index" class="btn btn-secondary">Back</a>
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
