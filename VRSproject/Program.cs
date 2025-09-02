@@ -25,6 +25,8 @@ builder.Services.AddTransient<SeedRolesAndAdmin>();
 builder.Services.AddScoped<VehicleService>();
 builder.Services.AddScoped<MaintenanceService>();
 builder.Services.AddScoped<FeedbackService>();
+builder.Services.AddScoped<ReservationService>();
+builder.Services.AddScoped<RentalService>();
 
 var app = builder.Build();
 
