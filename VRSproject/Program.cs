@@ -24,6 +24,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddTransient<SeedRolesAndAdmin>();
 builder.Services.AddScoped<VehicleService>();
 builder.Services.AddScoped<MaintenanceService>();
+builder.Services.AddScoped<FeedbackService>();
 
 var app = builder.Build();
 

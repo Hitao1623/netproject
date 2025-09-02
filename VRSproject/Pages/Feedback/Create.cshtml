@@ -1,0 +1,102 @@
+﻿@page "{rentalId:guid}"
+@model VRSproject.Pages.Feedback.CreateModel
+@{
+    ViewData["Title"] = "Give Feedback";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2>Give Feedback</h2>
+
+        <!-- Display Success/Error Messages -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <!-- Rental Information Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Rental Information</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Vehicle</dt>
+                    <dd class="col-sm-9">@Model.RentalInfo.VehicleDescription</dd>
+
+                    <dt class="col-sm-3">Rental Date</dt>
+                    <dd class="col-sm-9">@Model.RentalInfo.RentalPeriod.ToString("MMM dd, yyyy")</dd>
+
+                    <dt class="col-sm-3">Rental ID</dt>
+                    <dd class="col-sm-9"><small class="text-muted">@Model.RentalInfo.RentalId</small></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Feedback Form -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Your Feedback</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" asp-for="Form.RentalId" />
+
+                    <!-- Rating Input -->
+                    <div class="mb-3">
+                        <label asp-for="Form.Rating" class="form-label required"></label>
+                        <div>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="Form.Rating" value="@i" id="rating@(i)" />
+                                    <label class="form-check-label" for="rating@(i)">
+                                        @for (int j = 0; j < i; j++)
+                                        {
+                                            <span>⭐</span>
+                                        }
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        <span asp-validation-for="Form.Rating" class="text-danger"></span>
+                    </div>
+
+                    <!-- Comment Input -->
+                    <div class="mb-3">
+                        <label asp-for="Form.Comment" class="form-label required"></label>
+                        <textarea asp-for="Form.Comment" class="form-control" rows="4"
+                                  placeholder="Please share your experience with this vehicle..."></textarea>
+                        <div class="form-text">Your feedback helps us improve our service.</div>
+                        <span asp-validation-for="Form.Comment" class="text-danger"></span>
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                        <a asp-page="/Rentals/Index" class="btn btn-outline-secondary">Back to My Rentals</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .required::after {
+        content: " *";
+        color: red;
+    }
+</style>
